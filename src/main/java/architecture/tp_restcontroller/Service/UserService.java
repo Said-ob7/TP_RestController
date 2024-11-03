@@ -26,12 +26,16 @@ public class UserService {
         return null;
     }
 
-    public void suppUser(Integer id){
-        for(User usr:userList)
-            if(id==usr.getId()) {
-                userList.remove(usr);
-            }
+    public String suppUser(Integer id) {
+        boolean removed = userList.removeIf(usr -> usr.getId() == id);
+        if (removed) {
+            return String.format("L'utilisateur avec l'ID %d a été supprimé avec succès.", id);
+        } else {
+            return String.format("L'utilisateur avec l'ID %d n'existe pas.", id);
+        }
     }
+
+
     public List<User> getUsers(){
         return userList;
     }

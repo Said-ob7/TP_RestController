@@ -3,6 +3,8 @@ package architecture.tp_restcontroller.Controller;
 import architecture.tp_restcontroller.Model.User;
 import architecture.tp_restcontroller.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,8 +44,14 @@ public class UserController {
     }
 
     @DeleteMapping("/supp")
-    public void SupprimerUser(@RequestParam Integer id) {
-        userService.suppUser(id);
+    public ResponseEntity<String> SupprimerUser(@RequestParam Integer id) {
+        String message = userService.suppUser(id);
+        if (message.contains("succès")) {
+            return ResponseEntity.ok(message); // 200 OK if user is deleted
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message); // 404 Not Found if user doesn't exist
+        }
     }
+
 }
 
